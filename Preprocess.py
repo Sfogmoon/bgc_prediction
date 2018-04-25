@@ -1,6 +1,8 @@
+# Pre processing for BGC finding. Removing short contigs and long names of contigs
 import sys
 import os
 from Bio import SeqIO
+
 
 def sequence_cleaner(fasta_file, min_length=0):
     # Create our array to add the sequences

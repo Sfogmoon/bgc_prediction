@@ -1,3 +1,4 @@
+# Post processing for BGC finding. Extracting data from html, creating csv file with BGCs
 import sys
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -19,9 +20,21 @@ def html_to_csv(html_file):
         # Parse html with pandas. There should be only one table, take it
         pd_table = pd.read_html(str(html_table))[0]
         # Drop the first unrelevant row
-        pd_table = pd_table.drop([0])
-        pd_table.to_csv(dir_name + "_BGCs.csv", sep='\t')
+        # pd_table = pd_table.drop([0])
+        with open(dir_name + "_BGCs.csv", "w+") as outfile:
+            outfile.write("\t".join(list(pd_table.columns.values)) + "\n")
+            seq = "sequence 0 "
+            for row in list(pd_table.values):
+                if len(row) < 1:
+                    continue
+                if "sequence" in row[0]:
+                    seq = row[0][row[0].find("sequence"):-1] + " "
+                    continue
+                row[0] = seq + str(row[0])
+                outfile.write("\t".join([str(i) for i in row]) + "\n")
+        # pd_table.to_csv(dir_name + "_BGCs.csv", sep='\t')
     except:
+        print(sys.exc_info())
         # Create empty file with no results
         with open(dir_name + "_BGCs.csv", "w+") as output_file:
             pass

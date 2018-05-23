@@ -30,7 +30,11 @@ conda env create --name snakemake-tutorial --file environment.yaml
 
 Antismash setup:
 First you have to install conda
-Second you should run these comands:
+Second setup bioconda:
+conda config --add channels defaults
+conda config --add channels conda-forge
+conda config --add channels bioconda
+Third you should run these comands:
 conda create -n antismash antismash
 source activate antismash
 download-antismash-databases

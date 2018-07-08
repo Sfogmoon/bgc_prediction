@@ -11,9 +11,9 @@ rule preprocess:
 
 rule antismash:
     input:
-        "clear_{sample}.fasta"
+        "{sample}/{sample}.txt"
     output:
-        "clear_{sample}/index.html"
+        "{sample}/{sample}_finished.txt"
     run:
         cmd = '''source activate antismash
         antismash {input}
@@ -22,9 +22,9 @@ rule antismash:
 
 rule postprocess:
     input:
-        "clear_{sample}/index.html"
+        "{sample}/{sample}_finished.txt"
     output:
-        "clear_{sample}_BGCs.csv"
+        "{sample}_BGCs.csv"
     run:
         cmd = '''source activate antismash
         python Postprocess.py {input}
